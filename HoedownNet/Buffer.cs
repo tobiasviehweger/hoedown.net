@@ -3,7 +3,7 @@ using System.IO;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace Sundown
+namespace Hoedown
 {
 	unsafe public abstract class Buffer : IDisposable
 	{

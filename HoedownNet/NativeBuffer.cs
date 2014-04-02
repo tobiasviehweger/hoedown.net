@@ -5,7 +5,7 @@ using System.IO;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace Sundown
+namespace Hoedown
 {
 	public class NativeBuffer : Buffer
 	{

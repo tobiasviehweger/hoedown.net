@@ -1,12 +1,12 @@
 using System;
-using Sundown;
+using Hoedown;
 
 namespace Benchmark
 {
-	public class SundownNetTest : Test
+	public class HoedownNetTest : Test
 	{
 		Markdown md;
-		public SundownNetTest()
+		public HoedownNetTest()
 		{
 			md = new Markdown(new HtmlRenderer());
 			Name = "SundownNet";

@@ -1,7 +1,7 @@
 using System;
 using System.IO;
 
-namespace Sundown
+namespace Hoedown
 {
 	public class BufferStream : Stream
 	{

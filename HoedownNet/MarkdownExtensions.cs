@@ -1,6 +1,6 @@
 using System;
 
-namespace Sundown
+namespace Hoedown
 {
 	enum mkd_extensions : uint
 	{

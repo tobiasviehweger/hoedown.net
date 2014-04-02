@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 
 
-namespace Sundown
+namespace Hoedown
 {
 	struct html_renderopt
 	{

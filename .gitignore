@@ -31,3 +31,4 @@ _ReSharper*/
 *.swp
 *.userprefs
 libs/
+/packages/

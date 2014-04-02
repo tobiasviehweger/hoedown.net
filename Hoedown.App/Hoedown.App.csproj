@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -7,8 +7,10 @@
     <SchemaVersion>2.0</SchemaVersion>
     <ProjectGuid>{2F818065-9823-4A19-A9CD-FEF209AAC747}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Sundown.App</RootNamespace>
-    <AssemblyName>Sundown</AssemblyName>
+    <RootNamespace>Hoedown.App</RootNamespace>
+    <AssemblyName>Hoedown</AssemblyName>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Client</TargetFrameworkProfile>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -29,10 +31,10 @@
     <Externalconsole>true</Externalconsole>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="System" />
     <Reference Include="NDesk.Options">
-      <HintPath>..\libs\NDesk.Options.0.2.1\lib\NDesk.Options.dll</HintPath>
+      <HintPath>..\packages\NDesk.Options.0.2.1\lib\NDesk.Options.dll</HintPath>
     </Reference>
+    <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Main.cs" />
@@ -40,9 +42,13 @@
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <ProjectReference Include="..\SundownNet\SundownNet.csproj">
-      <Project>{38A72E24-6306-4EC0-8B7A-9207935A6F7E}</Project>
-      <Name>SundownNet</Name>
+    <None Include="app.config" />
+    <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\HoedownNet\HoedownNet.csproj">
+      <Project>{38a72e24-6306-4ec0-8b7a-9207935a6f7e}</Project>
+      <Name>HoedownNet</Name>
     </ProjectReference>
   </ItemGroup>
 </Project>

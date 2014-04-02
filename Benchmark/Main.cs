@@ -38,7 +38,7 @@ namespace Benchmark
 			}
 
 			var tests = new Test[] {
-				new SundownNetTest(),
+				new HoedownNetTest(),
 				new MarkdownDeepTest(),
 				new MarkdownSharpTest(),
 			};

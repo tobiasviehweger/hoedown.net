@@ -2,7 +2,7 @@ using System;
 using System.Text;
 using System.Runtime.InteropServices;
 
-namespace Sundown
+namespace Hoedown
 {
 	public sealed class Markdown : IDisposable
 	{

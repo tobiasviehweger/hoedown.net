@@ -2,7 +2,7 @@ using System;
 using System.Runtime.InteropServices;
 using System.Reflection;
 
-namespace Sundown
+namespace Hoedown
 {
 	public enum AutolinkType : uint
 	{

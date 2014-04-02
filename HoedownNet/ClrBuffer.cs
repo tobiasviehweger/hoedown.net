@@ -5,97 +5,105 @@ using System.Runtime.InteropServices;
 
 namespace Hoedown
 {
-	public class ClrBuffer : Buffer
-	{
-		buffer bufinstance = new buffer();
-		GCHandle bufhandle;
+    public class ClrBuffer : Buffer
+    {
+        buffer bufinstance = new buffer();
+        GCHandle bufhandle;
 
-		Func<IntPtr, IntPtr> malloc;
-		Func<IntPtr, IntPtr, IntPtr> realloc;
-		Action<IntPtr> free;
+        Func<IntPtr, IntPtr> malloc;
+        Func<IntPtr, IntPtr, IntPtr> realloc;
+        Action<IntPtr> free;
 
-		IntPtr Malloc(IntPtr size)
-		{
-			bufhandle = GCHandle.Alloc(bufinstance, GCHandleType.Pinned);
-			return bufhandle.AddrOfPinnedObject();
-		}
+        IntPtr Malloc(IntPtr size)
+        {
+            bufhandle = GCHandle.Alloc(bufinstance, GCHandleType.Pinned);
+            return bufhandle.AddrOfPinnedObject();
+        }
 
-		byte[] bytearr;
-		GCHandle bytearrhandle;
+        byte[] bytearr;
+        GCHandle bytearrhandle;
 
-		IntPtr Realloc(IntPtr ptr, IntPtr size)
-		{
-			if (ptr == IntPtr.Zero) {
-				bytearr = new byte[size.ToInt64()];
-				bytearrhandle = GCHandle.Alloc(bytearr, GCHandleType.Pinned);
-				return bytearrhandle.AddrOfPinnedObject();
-			} else {
-				bytearrhandle.Free();
-				Array.Resize(ref bytearr, size.ToInt32());
-				bytearrhandle = GCHandle.Alloc(bytearr, GCHandleType.Pinned);
-				return bytearrhandle.AddrOfPinnedObject();
-			}
-		}
+        IntPtr Realloc(IntPtr ptr, IntPtr size)
+        {
+            if (ptr == IntPtr.Zero)
+            {
+                bytearr = new byte[size.ToInt64()];
+                bytearrhandle = GCHandle.Alloc(bytearr, GCHandleType.Pinned);
+                return bytearrhandle.AddrOfPinnedObject();
+            }
+            else
+            {
+                bytearrhandle.Free();
+                Array.Resize(ref bytearr, size.ToInt32());
+                bytearrhandle = GCHandle.Alloc(bytearr, GCHandleType.Pinned);
+                return bytearrhandle.AddrOfPinnedObject();
+            }
+        }
 
-		void Free(IntPtr ptr)
-		{
-			if (ptr == NativeHandle) {
-				bufhandle.Free();
-			} else {
-				bytearrhandle.Free();
-			}
-		}
+        void Free(IntPtr ptr)
+        {
+            if (ptr == NativeHandle)
+            {
+                bufhandle.Free();
+            }
+            else
+            {
+                bytearrhandle.Free();
+            }
+        }
 
-		public ClrBuffer()
-			: this(DefaultUnitSize)
-		{
-		}
+        public ClrBuffer()
+            : this(DefaultUnitSize)
+        {
+        }
 
-		public ClrBuffer(int size)
-			: this((IntPtr)size)
-		{
-		}
+        public ClrBuffer(int size)
+            : this((IntPtr)size)
+        {
+        }
 
-		public ClrBuffer(long size)
-			: this((IntPtr)size)
-		{
-		}
+        public ClrBuffer(long size)
+            : this((IntPtr)size)
+        {
+        }
 
-		public ClrBuffer(IntPtr size)
-			: this((IntPtr)size, true)
-		{
-		}
+        public ClrBuffer(IntPtr size)
+            : this((IntPtr)size, true)
+        {
+        }
 
-		public ClrBuffer(IntPtr size, bool alloc)
-			: base(size, alloc)
-		{
-		}
+        public ClrBuffer(IntPtr size, bool alloc)
+            : base(size, alloc)
+        {
+        }
 
-		[DllImport("sundown", CallingConvention=CallingConvention.Cdecl)]
-		private static extern IntPtr bufnewcb(IntPtr size, IntPtr malloc, IntPtr realloc, IntPtr free);
+        [DllImport("hoedown", CallingConvention = CallingConvention.Cdecl)]
+        private static extern IntPtr bufnewcb(IntPtr size, IntPtr malloc, IntPtr realloc, IntPtr free);
 
-		protected override void Alloc(IntPtr size)
-		{
-			malloc = Malloc;
-			realloc = Realloc;
-			free = Free;
+        protected override void Alloc(IntPtr size)
+        {
+            malloc = Malloc;
+            realloc = Realloc;
+            free = Free;
 
-			NativeHandle = bufnewcb(size,
-				Marshal.GetFunctionPointerForDelegate(malloc),
-				Marshal.GetFunctionPointerForDelegate(realloc),
-				Marshal.GetFunctionPointerForDelegate(free));
-		}
+            NativeHandle = bufnewcb(size,
+                Marshal.GetFunctionPointerForDelegate(malloc),
+                Marshal.GetFunctionPointerForDelegate(realloc),
+                Marshal.GetFunctionPointerForDelegate(free));
+        }
 
-		public override string ToString()
-		{
-			return Encoding.GetString(bytearr, 0, Size.ToInt32());
-		}
+        public override string ToString()
+        {
+            return Encoding.GetString(bytearr, 0, Size.ToInt32());
+        }
 
-		public byte[] Buffer {
-			get {
-				return bytearr;
-			}
-		}
-	}
+        public byte[] Buffer
+        {
+            get
+            {
+                return bytearr;
+            }
+        }
+    }
 }
 

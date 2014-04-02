@@ -32,3 +32,6 @@ _ReSharper*/
 *.userprefs
 libs/
 /packages/
+*.sdf
+*.opensdf
+*.vcxproj.filters

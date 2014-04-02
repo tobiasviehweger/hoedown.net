@@ -163,7 +163,7 @@ namespace Hoedown
 
         public void Put(IntPtr data, IntPtr size)
         {
-            bufput(NativeHandle, data, size);
+            hoedown_buffer_put(NativeHandle, data, size);
         }
 
         public void Put(byte[] bytes, int size)
@@ -232,17 +232,17 @@ namespace Hoedown
 
         public void Put(byte c)
         {
-            bufputc(NativeHandle, c);
+            hoedown_buffer_putc(NativeHandle, c);
         }
 
         [DllImport("hoedown", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void bufput(IntPtr buf, IntPtr buffer, IntPtr size);
+        private static extern void hoedown_buffer_put(IntPtr buf, IntPtr buffer, IntPtr size);
 
         [DllImport("hoedown", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void bufputs(IntPtr buf, IntPtr size);
+        private static extern void hoedown_buffer_puts(IntPtr buf, IntPtr size);
 
         [DllImport("hoedown", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void bufputc(IntPtr buf, byte c);
+        private static extern void hoedown_buffer_putc(IntPtr buf, byte c);
 
         #endregion
 
@@ -259,21 +259,21 @@ namespace Hoedown
 
         public void Grow(IntPtr size)
         {
-            bufgrow(NativeHandle, size);
+            hoedown_buffer_grow(NativeHandle, size);
         }
 
         [DllImport("hoedown", CallingConvention = CallingConvention.Cdecl)]
-        private static extern int bufgrow(IntPtr buf, IntPtr size);
+        private static extern int hoedown_buffer_grow(IntPtr buf, IntPtr size);
         #endregion
 
         #region Reset
         public void Reset()
         {
-            bufreset(NativeHandle);
+            hoedown_buffer_reset(NativeHandle);
         }
 
         [DllImport("hoedown", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void bufreset(IntPtr buf);
+        private static extern void hoedown_buffer_reset(IntPtr buf);
         #endregion
 
         #region Release
@@ -281,19 +281,19 @@ namespace Hoedown
         {
             if (NativeHandle != IntPtr.Zero)
             {
-                bufrelease(NativeHandle);
+                hoedown_buffer_free(NativeHandle);
                 NativeHandle = IntPtr.Zero;
             }
         }
 
         [DllImport("hoedown", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void bufrelease(IntPtr buf);
+        private static extern void hoedown_buffer_free(IntPtr buf);
         #endregion
 
         #region Slurp
         public void Slurp(IntPtr size)
         {
-            bufslurp(NativeHandle, size);
+            hoedown_buffer_slurp(NativeHandle, size);
         }
 
         public void Slurp(int size)
@@ -307,7 +307,7 @@ namespace Hoedown
         }
 
         [DllImport("hoedown", CallingConvention = CallingConvention.Cdecl)]
-        private static extern void bufslurp(IntPtr buf, IntPtr size);
+        private static extern void hoedown_buffer_slurp(IntPtr buf, IntPtr size);
         #endregion
     }
 }

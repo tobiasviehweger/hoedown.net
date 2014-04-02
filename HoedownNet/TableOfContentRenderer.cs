@@ -22,13 +22,13 @@ namespace Hoedown
         }
 
         [DllImport("hoedown", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void sdhtml_toc_renderer(ref md_callbacks callbacks, IntPtr options, uint render_flags);
+        internal static extern void hoedown_html_toc_renderer_new(ref md_callbacks callbacks, IntPtr options, uint render_flags);
 
         protected override void Initialize()
         {
             optionsgchandle = GCHandle.Alloc(options, GCHandleType.Pinned);
             opaque = optionsgchandle.AddrOfPinnedObject();
-            sdhtml_toc_renderer(ref callbacks, opaque, 0);
+            hoedown_html_toc_renderer_new(ref callbacks, opaque, 0);
             base.Initialize();
         }
     }

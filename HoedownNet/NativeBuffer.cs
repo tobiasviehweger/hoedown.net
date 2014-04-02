@@ -10,7 +10,7 @@ namespace Hoedown
     public class NativeBuffer : Buffer
     {
         [DllImport("hoedown", CallingConvention = CallingConvention.Cdecl)]
-        private static extern IntPtr bufnew(IntPtr size);
+        private static extern IntPtr hoedown_buffer_new(IntPtr size);
 
         public NativeBuffer()
             : this(DefaultUnitSize)
@@ -39,7 +39,7 @@ namespace Hoedown
 
         protected override void Alloc(IntPtr size)
         {
-            NativeHandle = bufnew(size);
+            NativeHandle = hoedown_buffer_new(size);
         }
 
         public override string ToString()
@@ -47,7 +47,7 @@ namespace Hoedown
 #if marshalcopy
             return Encoding.GetString(GetBytes());
 #else
-			return new StreamReader(GetStream()).ReadToEnd();
+            return new StreamReader(GetStream()).ReadToEnd();
 #endif
         }
     }

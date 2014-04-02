@@ -45,13 +45,13 @@ namespace Hoedown
         }
 
         [DllImport("hoedown", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void sdhtml_renderer(ref md_callbacks callbacks, IntPtr options, uint render_flags);
+        internal static extern void hoedown_html_renderer_new(ref md_callbacks callbacks, IntPtr options, uint render_flags);
 
         protected override void Initialize()
         {
             optionsgchandle = GCHandle.Alloc(options, GCHandleType.Pinned);
             opaque = optionsgchandle.AddrOfPinnedObject();
-            sdhtml_renderer(ref callbacks, opaque, flags);
+            hoedown_html_renderer_new(ref callbacks, opaque, flags);
 
             base.Initialize();
         }

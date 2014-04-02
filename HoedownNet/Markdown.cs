@@ -7,14 +7,14 @@ namespace Hoedown
     public sealed class Markdown : IDisposable
     {
         [DllImport("hoedown", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void sd_version(out int major, out int minor, out int revision);
+        internal static extern void hoedown_version(out int major, out int minor, out int revision);
 
         public static Version Version
         {
             get
             {
                 int major, minor, revision;
-                sd_version(out major, out minor, out revision);
+                hoedown_version(out major, out minor, out revision);
                 return new Version(major, minor, revision);
             }
         }
@@ -25,7 +25,7 @@ namespace Hoedown
         Renderer renderer;
 
         [DllImport("hoedown", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern IntPtr sd_markdown_new(uint extensions, IntPtr max_nesting, IntPtr callbacks, IntPtr opaque);
+        internal static extern IntPtr hoedown_document_new(IntPtr renderer, uint extensions, IntPtr max_nesting);
 
         public Markdown(Renderer renderer)
             : this(renderer, null)
@@ -46,8 +46,8 @@ namespace Hoedown
         {
             this.renderer = renderer;
 
-            ptr = sd_markdown_new((extensions == null ? 0 : extensions.ToUInt()), (IntPtr)maxNesting,
-                renderer.callbacksgchandle.AddrOfPinnedObject(), renderer.opaque);
+            ptr = hoedown_document_new(renderer.callbacksgchandle.AddrOfPinnedObject(),
+                (extensions == null ? 0 : extensions.ToUInt()), (IntPtr)maxNesting);
         }
 
         ~Markdown()
@@ -61,7 +61,7 @@ namespace Hoedown
         }
 
         [DllImport("hoedown", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void sd_markdown_free(IntPtr ptr);
+        internal static extern void hoedown_document_free(IntPtr ptr);
 
         void Dispose(bool disposing)
         {
@@ -72,7 +72,7 @@ namespace Hoedown
 
             if (ptr != IntPtr.Zero)
             {
-                sd_markdown_free(ptr);
+                hoedown_document_free(ptr);
                 ptr = IntPtr.Zero;
             }
 
@@ -96,7 +96,7 @@ namespace Hoedown
 
         public void Render(Buffer @out, Buffer @in)
         {
-            sd_markdown_render(@out.NativeHandle, @in.Data, @in.Size, ptr);
+            hoedown_document_render(@out.NativeHandle, @in.Data, @in.Size, ptr);
         }
 
         public void Render(Buffer @out, byte[] array)
@@ -115,12 +115,12 @@ namespace Hoedown
         }
 
         [DllImport("hoedown", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void sd_markdown_render(IntPtr buf, IntPtr document, IntPtr documentSize, IntPtr md);
+        internal static extern void hoedown_document_render(IntPtr buf, IntPtr document, IntPtr documentSize, IntPtr md);
 
         public void Render(Buffer @out, byte[] array, IntPtr length)
         {
             var handle = GCHandle.Alloc(array, GCHandleType.Pinned);
-            sd_markdown_render(@out.NativeHandle, handle.AddrOfPinnedObject(), length, ptr);
+            hoedown_document_render(@out.NativeHandle, handle.AddrOfPinnedObject(), length, ptr);
             handle.Free();
         }
 
@@ -173,12 +173,12 @@ namespace Hoedown
         }
 
         [DllImport("hoedown", CallingConvention = CallingConvention.Cdecl)]
-        internal static extern void sdhtml_smartypants(IntPtr buf, IntPtr text, IntPtr size);
+        internal static extern void hoedown_html_smartypants(IntPtr buf, IntPtr text, IntPtr size);
 
         public static void SmartyPants(Buffer @out, byte[] array, IntPtr length)
         {
             var handle = GCHandle.Alloc(array, GCHandleType.Pinned);
-            sdhtml_smartypants(@out.NativeHandle, handle.AddrOfPinnedObject(), (IntPtr)length);
+            hoedown_html_smartypants(@out.NativeHandle, handle.AddrOfPinnedObject(), (IntPtr)length);
             handle.Free();
         }
 

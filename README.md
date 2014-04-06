@@ -17,6 +17,7 @@ Compiling Hoedown with Visual Studio 2013
 
 To compile the native hoedown library, you need VS2013 with the newest C++ compiler preview from Microsoft, as hoedown uses C99 language features. Get it here:
 
+[VS C++ compiler CTP](http://blogs.msdn.com/b/vcblog/archive/2013/11/18/announcing-the-visual-c-compiler-november-2013-ctp.aspx)
 
 License
 =======

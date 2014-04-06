@@ -12,6 +12,12 @@ quickly (simple API).
 
 It is ridicolously fast compared to pure .NET/Regex implementations.
 
+Compiling Hoedown with Visual Studio 2013
+=======
+
+To compile the native hoedown library, you need VS2013 with the newest C++ compiler preview from Microsoft, as hoedown uses C99 language features. Get it here:
+
+
 License
 =======
 The wrapper is available under the [MIT license](http://en.wikipedia.org/wiki/MIT_License).
